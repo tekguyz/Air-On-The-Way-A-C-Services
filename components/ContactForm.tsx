@@ -11,7 +11,21 @@ export function ContactForm() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
-    const formData = new FormData(e.currentTarget);
+    
+    // Create a new FormData object to ensure the order of fields
+    const form = e.currentTarget;
+    const formData = new FormData();
+    
+    // Netlify requires form-name to be present in the POST body
+    formData.append("form-name", "air-on-the-way-contact");
+    
+    // Append all other fields from the form
+    const originalData = new FormData(form);
+    for (const [key, value] of originalData.entries()) {
+      if (key !== "form-name") {
+        formData.append(key, value);
+      }
+    }
     
     try {
       const response = await fetch("/", { 
@@ -21,9 +35,13 @@ export function ContactForm() {
       
       if (response.ok) {
         setIsSubmitted(true);
+      } else {
+        throw new Error(`Response status: ${response.status}`);
       }
     } catch (error) {
       console.error("Form submission error:", error);
+      // Fallback: try to submit the form normally if AJAX fails
+      // but since we are in a SPA, we'll just log it for now.
     } finally {
       setIsSubmitting(false);
     }
@@ -111,9 +129,8 @@ export function ContactForm() {
                     onSubmit={handleSubmit}
                     className="grid grid-cols-1 md:grid-cols-2 gap-6"
                     encType="multipart/form-data"
-                    data-netlify="true"
                     name="air-on-the-way-contact"
-                    netlify-honeypot="bot-field"
+                    action="/"
                   >
                     <input type="hidden" name="form-name" value="air-on-the-way-contact" />
                     <div className="hidden">
