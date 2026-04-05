@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+@theme {
+  --color-urgency-red: oklch(58% 0.22 26);
+  --color-cool-navy: oklch(26% 0.08 255);
+  --color-steel-silver: oklch(82% 0.01 250);
+  
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-archivo-black), ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-white text-cool-navy font-sans antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading italic tracking-tight;
+  }
+}
