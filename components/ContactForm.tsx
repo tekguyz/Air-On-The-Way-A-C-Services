@@ -111,8 +111,14 @@ export function ContactForm() {
                     onSubmit={handleSubmit}
                     className="grid grid-cols-1 md:grid-cols-2 gap-6"
                     encType="multipart/form-data"
+                    data-netlify="true"
+                    name="air-on-the-way-contact"
+                    netlify-honeypot="bot-field"
                   >
                     <input type="hidden" name="form-name" value="air-on-the-way-contact" />
+                    <div className="hidden">
+                      <label>Don&apos;t fill this out if you&apos;re human: <input name="bot-field" /></label>
+                    </div>
                     
                     <div className="space-y-2 md:col-span-2">
                       <label className="text-sm font-bold uppercase tracking-wider">Full Name</label>
