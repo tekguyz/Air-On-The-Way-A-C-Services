@@ -7,17 +7,19 @@ import { SERVICES } from '@/lib/constants';
 export function ContactForm() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setError(null);
     
     // Create a new FormData object to ensure the order of fields
     const form = e.currentTarget;
     const formData = new FormData();
     
     // Netlify requires form-name to be present in the POST body
-    formData.append("form-name", "contact");
+    formData.append("form-name", "air-on-the-way-v6");
     
     // Append all other fields from the form
     const originalData = new FormData(form);
@@ -28,20 +30,20 @@ export function ContactForm() {
     }
     
     try {
-      const response = await fetch("/", { 
+      const response = await fetch("/forms.html", { 
         method: "POST", 
+        headers: { "X-Requested-With": "XMLHttpRequest" },
         body: formData 
       });
       
       if (response.ok) {
         setIsSubmitted(true);
       } else {
-        throw new Error(`Response status: ${response.status}`);
+        throw new Error(`Server responded with ${response.status}. Please try again later.`);
       }
-    } catch (error) {
-      console.error("Form submission error:", error);
-      // Fallback: try to submit the form normally if AJAX fails
-      // but since we are in a SPA, we'll just log it for now.
+    } catch (err) {
+      console.error("Form submission error:", err);
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -129,10 +131,10 @@ export function ContactForm() {
                     onSubmit={handleSubmit}
                     className="grid grid-cols-1 md:grid-cols-2 gap-6"
                     encType="multipart/form-data"
-                    name="contact"
-                    action="/"
+                    name="air-on-the-way-v6"
+                    action="/forms.html"
                   >
-                    <input type="hidden" name="form-name" value="contact" />
+                    <input type="hidden" name="form-name" value="air-on-the-way-v6" />
                     <div className="hidden">
                       <label>Don&apos;t fill this out if you&apos;re human: <input name="bot-field" /></label>
                     </div>
@@ -180,6 +182,11 @@ export function ContactForm() {
                       <textarea name="message" className="w-full border-b-2 border-gray-200 focus:border-urgency-red outline-none py-2 transition-colors resize-none" rows={3} placeholder="Tell us about your issue..."></textarea>
                     </div>
                     <div className="md:col-span-2 pt-4">
+                      {error && (
+                        <div className="mb-4 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 text-sm font-medium">
+                          {error}
+                        </div>
+                      )}
                       <button 
                         type="submit" 
                         disabled={isSubmitting}
