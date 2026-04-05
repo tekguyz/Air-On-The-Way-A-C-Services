@@ -30,27 +30,7 @@ export function ContactForm() {
   };
 
   return (
-    <>
-      {/* Netlify Hidden Form for Detection */}
-      <form 
-        name="air-on-the-way-contact" 
-        data-netlify="true" 
-        netlify-honeypot="bot-field" 
-        hidden
-      >
-        <input type="text" name="bot-field" />
-        <input type="text" name="full_name" />
-        <input type="tel" name="phone_number" />
-        <input type="text" name="address" />
-        <select name="service_type">
-          {SERVICES.map(s => <option key={s.slug} value={s.slug}>{s.title}</option>)}
-        </select>
-        <input type="file" name="unit_photo" />
-        <textarea name="message"></textarea>
-      </form>
-
-      {/* Contact Form Section */}
-      <section id="contact-form" className="py-24 bg-cool-navy text-white relative overflow-hidden">
+    <section id="contact-form" className="py-24 bg-cool-navy text-white relative overflow-hidden">
         <div className="absolute top-0 right-0 w-1/3 h-full bg-urgency-red/5 skew-x-12 translate-x-1/2"></div>
         <div className="max-w-7xl mx-auto px-4 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -192,6 +172,5 @@ export function ContactForm() {
           </div>
         </div>
       </section>
-    </>
   );
 }
