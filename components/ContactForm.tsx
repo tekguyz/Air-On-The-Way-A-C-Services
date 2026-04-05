@@ -17,7 +17,7 @@ export function ContactForm() {
     const formData = new FormData();
     
     // Netlify requires form-name to be present in the POST body
-    formData.append("form-name", "air-on-the-way-contact");
+    formData.append("form-name", "contact");
     
     // Append all other fields from the form
     const originalData = new FormData(form);
@@ -129,10 +129,10 @@ export function ContactForm() {
                     onSubmit={handleSubmit}
                     className="grid grid-cols-1 md:grid-cols-2 gap-6"
                     encType="multipart/form-data"
-                    name="air-on-the-way-contact"
+                    name="contact"
                     action="/"
                   >
-                    <input type="hidden" name="form-name" value="air-on-the-way-contact" />
+                    <input type="hidden" name="form-name" value="contact" />
                     <div className="hidden">
                       <label>Don&apos;t fill this out if you&apos;re human: <input name="bot-field" /></label>
                     </div>
